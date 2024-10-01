@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.pic.mapper.VmpRelationFileMapper">
+
+    <resultMap id="BaseResultMap" type="com.ruoyi.pic.domain.VmpRelationFile">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="type" column="type" jdbcType="TINYINT"/>
+            <result property="tripType" column="trip_type" jdbcType="TINYINT"/>
+            <result property="fuelType" column="fuel_type" jdbcType="TINYINT"/>
+            <result property="relationId" column="relation_id" jdbcType="BIGINT"/>
+            <result property="fileUrl" column="file_url" jdbcType="VARCHAR"/>
+            <result property="fileName" column="file_name" jdbcType="VARCHAR"/>
+            <result property="filePath" column="file_path" jdbcType="VARCHAR"/>
+            <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="remark" column="remark" jdbcType="VARCHAR"/>
+            <result property="sort" column="sort" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,type,trip_type,
+        fuel_type,relation_id,file_url,
+        file_name,file_path,create_by,
+        create_time,update_by,update_time,
+        remark,sort
+    </sql>
+</mapper>

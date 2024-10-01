@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.BooksMapper">
+    
+    <resultMap type="Books" id="BooksResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="author"    column="author"    />
+        <result property="publisher"    column="publisher"    />
+        <result property="publishDate"    column="publish_date"    />
+        <result property="isbn"    column="isbn"    />
+        <result property="coverImage"    column="cover_image"    />
+        <result property="description"    column="description"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectBooksVo">
+        select id, title, author, publisher, publish_date, isbn, cover_image, description, create_time, update_time from books
+    </sql>
+
+    <select id="selectBooksList" parameterType="Books" resultMap="BooksResult">
+        <include refid="selectBooksVo"/>
+        <where>  
+            <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
+            <if test="author != null  and author != ''"> and author like concat('%', #{author}, '%')</if>
+            <if test="publisher != null  and publisher != ''"> and publisher like concat('%', #{publisher}, '%')</if>
+            <if test="params.beginPublishDate != null and params.beginPublishDate != '' and params.endPublishDate != null and params.endPublishDate != ''"> and publish_date between #{params.beginPublishDate} and #{params.endPublishDate}</if>
+            <if test="isbn != null  and isbn != ''"> and isbn like concat('%', #{isbn}, '%')</if>
+            <if test="description != null  and description != ''"> and description like concat('%', #{description}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectBooksById" parameterType="Long" resultMap="BooksResult">
+        <include refid="selectBooksVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBooks" parameterType="Books" useGeneratedKeys="true" keyProperty="id">
+        insert into books
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null and title != ''">title,</if>
+            <if test="author != null and author != ''">author,</if>
+            <if test="publisher != null">publisher,</if>
+            <if test="publishDate != null">publish_date,</if>
+            <if test="isbn != null">isbn,</if>
+            <if test="coverImage != null">cover_image,</if>
+            <if test="description != null">description,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null and title != ''">#{title},</if>
+            <if test="author != null and author != ''">#{author},</if>
+            <if test="publisher != null">#{publisher},</if>
+            <if test="publishDate != null">#{publishDate},</if>
+            <if test="isbn != null">#{isbn},</if>
+            <if test="coverImage != null">#{coverImage},</if>
+            <if test="description != null">#{description},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBooks" parameterType="Books">
+        update books
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null and title != ''">title = #{title},</if>
+            <if test="author != null and author != ''">author = #{author},</if>
+            <if test="publisher != null">publisher = #{publisher},</if>
+            <if test="publishDate != null">publish_date = #{publishDate},</if>
+            <if test="isbn != null">isbn = #{isbn},</if>
+            <if test="coverImage != null">cover_image = #{coverImage},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBooksById" parameterType="Long">
+        delete from books where id = #{id}
+    </delete>
+
+    <delete id="deleteBooksByIds" parameterType="String">
+        delete from books where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
